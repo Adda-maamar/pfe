@@ -1,13 +1,23 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
-const ConnectDB = require('./database/connect')
+const ConnectDB = require('./database/connect');
+
 const authRoutes = require('./routes/user');
 const hotelRoutes = require('./routes/hotels');
 const bookingRoutes = require('./routes/bookings');
 const roomRoutes = require('./routes/rooms');
+
+// Routes الجديدة للـ Events
+const eventRoutes = require('./routes/eventRoutes');
+const hallRoutes = require('./routes/hallRoutes');
+const packageRoutes = require('./routes/packageRoutes');
+const eventStepRoutes = require('./routes/eventStepRoutes');
+const eventReservationRoutes = require('./routes/eventReservationRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
 
 const seedAdmin = require('./config/seedAdmin'); // استيراد إنشاء admin
 
@@ -26,21 +36,24 @@ app.use((err, req, res, next) => {
   return next(err);
 });
 
-// Routes
+// Routes القديمة
 app.use('/api/auth', authRoutes);
 app.use('/api/hotels', hotelRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/bookings', bookingRoutes);
 
+// Routes الجديدة
+app.use('/api/events', eventRoutes);
+app.use('/api/halls', hallRoutes);
+app.use('/api/packages', packageRoutes);
+app.use('/api/event-steps', eventStepRoutes);
+app.use('/api/event-reservations', eventReservationRoutes);
+app.use('/api/services', serviceRoutes);
+
 // Simple test route
 app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working!' });
 });
-
-// الاتصال بقاعدة البيانات
-
-
-
 
 const PORT = process.env.PORT || 3000;
 
